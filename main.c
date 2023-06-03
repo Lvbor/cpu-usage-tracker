@@ -58,34 +58,38 @@ void *readerThread(void *arg) {
 
         fclose(file); // Close the file pointer
 
-        // Checks whether the data has been correctly retrieved from /proc/stat
-        printf("Thread index: %d, User: %lu, Nice: %lu, System: %lu, Idle: %lu\n",
-               threadData->thread_index, threadData->curr_data.user, threadData->curr_data.nice,
-               threadData->curr_data.system, threadData->curr_data.idle);
-
-        sleep(1);
+        sleep(1); // Sleep for 1s
     }
 
     return NULL;
 }
 
-// Analyzer thread
 void *analyzerThread(void *arg) {
     Thread_Data_t *threadData = (Thread_Data_t *)arg;
 
     threadData->prev_data = threadData->curr_data; // Initialize prev_data
 
     while (1) {
+
         // Getting the values needed to calculate CPU usage
         unsigned long prev_idle = threadData->prev_data.idle;
         unsigned long curr_idle = threadData->curr_data.idle;
-        unsigned long prev_total = prev_idle + threadData->prev_data.user + threadData->prev_data.nice + threadData->prev_data.system;
-        unsigned long curr_total = curr_idle + threadData->curr_data.user + threadData->curr_data.nice + threadData->curr_data.system;
+
+        unsigned long prev_non_idle = threadData->prev_data.user + threadData->prev_data.nice +
+                                      threadData->prev_data.system;
+        unsigned long curr_non_idle = threadData->curr_data.user + threadData->curr_data.nice +
+                                      threadData->curr_data.system;
+
+        unsigned long prev_total = prev_idle + prev_non_idle;
+        unsigned long curr_total = curr_idle + curr_non_idle;
+
+        unsigned long total_diff = curr_total - prev_total;
+        unsigned long idle_diff = curr_idle - prev_idle;
 
         // Calculating the percentage of CPU usage
         float cpu_usage;
-        if (prev_total != curr_total) {
-            cpu_usage = (float)(prev_total - curr_total) / (prev_total - curr_total + prev_idle - curr_idle) * 100.0;
+        if (total_diff != 0) {
+            cpu_usage = (total_diff - idle_diff) * 100.0 / total_diff;
         } else {
             cpu_usage = 0.0;
         }
@@ -93,9 +97,10 @@ void *analyzerThread(void *arg) {
         // Test print
         printf("Thread index: %d, CPU usage: %.2f%%\n", threadData->thread_index, cpu_usage);
 
+        // Replace previous data with current data
         threadData->prev_data = threadData->curr_data;
 
-        sleep(1);
+        sleep(1); // Sleep for 1s
     }
 
     return NULL;
@@ -111,7 +116,7 @@ int main() {
         pthread_create(&threads[i].thread_id, NULL, analyzerThread, &threads[i]);
     }
 
-    // Waiting for threads to end
+     // Waiting for threads to end
     for (int i = 0; i < NUM_CORES; i++) {
         pthread_join(threads[i].thread_id, NULL);
     }
