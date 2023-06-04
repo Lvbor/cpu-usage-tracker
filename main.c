@@ -1,6 +1,7 @@
 // Headers
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <pthread.h>
 #include <unistd.h>
@@ -9,6 +10,7 @@
 #define NUM_CORES 4
 #define MAX_BUFFER 256
 #define TRUE 1
+#define WATCHDOG_TIMEOUT 2
 
 // A structure that stores data for each core
 typedef struct {
@@ -22,12 +24,16 @@ typedef struct {
 } CPU_Data_t;
 
 // A structure that stores data for each thread
+#pragma pack(1) // Disable padding
 typedef struct {
     CPU_Data_t prev_data;
-    __int64_t thread_index;
     CPU_Data_t curr_data;
-    pthread_t thread_id;
+    pthread_t reader_thread_id;
+    pthread_t analyzer_thread_id;
+    __int32_t thread_index;
+    bool is_alive; // Thread status for watchdog thread
 } Thread_Data_t;
+#pragma pack(4) // Reset to previous alignment rule (enable padding)
 
 static float printData[NUM_CORES]; // Shared data structure for CPU usage data
 static pthread_mutex_t printDataLock = PTHREAD_MUTEX_INITIALIZER; // Definition of printDataLock (mutex)
@@ -73,6 +79,9 @@ static void *readerThread(void *arg) {
 
         // Sleep for 1s
         sleep(1);
+
+        // Set the thread as alive
+        threadData->is_alive = true;
     }
 
     return NULL;
@@ -84,7 +93,6 @@ static void *analyzerThread(void *arg) {
     threadData->prev_data = threadData->curr_data; // Initialize prev_data
 
     while (1) {
-
         // Getting the values needed to calculate CPU usage
         unsigned long prev_idle = threadData->prev_data.idle +
                                   threadData->prev_data.irq +
@@ -126,20 +134,31 @@ static void *analyzerThread(void *arg) {
 
         // Sleep for 1s
         sleep(1);
+
+        // Set the thread as alive
+        threadData->is_alive = true;
     }
 
     return NULL;
 }
 
 static void *printerThread() {
+    
     while (1) {
+        float total_cpu_usage = 0.0f;
+        float average_cpu_usage = 0.0f;
         // Acquire the lock to safely access the shared printData structure
         pthread_mutex_lock(&printDataLock);
 
-        // Print the CPU usage data from printData
+        // Calculate the total CPU usage
         for (int i = 0; i < NUM_CORES; i++) {
-            printf("Thread index: %d, CPU usage: %.2f%%\n", i, (double)printData[i]);
+            total_cpu_usage += printData[i];
         }
+
+        // Calculate the average CPU usage
+        average_cpu_usage = total_cpu_usage / NUM_CORES;
+
+        printf("Average CPU usage: %.2f%%\n", (double)average_cpu_usage);
 
         pthread_mutex_unlock(&printDataLock);
 
@@ -150,26 +169,49 @@ static void *printerThread() {
     return NULL;
 }
 
+static void *watchdogThread(void *arg) {
+    Thread_Data_t *threads = (Thread_Data_t *)arg;
+
+    while (1) {
+        sleep(WATCHDOG_TIMEOUT);
+        for (int i = 0; i < NUM_CORES; i++) {
+            if (!threads[i].is_alive) {
+                fprintf(stderr, "Thread %d did not report in time. Exiting...\n", i);
+                exit(EXIT_FAILURE);
+            } else {
+                threads[i].is_alive = false;
+            }
+        }
+    }
+
+    return NULL;
+}
+
 int main() {
     Thread_Data_t threads[NUM_CORES];
-    pthread_t printer_thread;
+    pthread_t printer_thread, watchdog_thread;
 
     // Reader and analyzer thread initialization
     for (int i = 0; i < NUM_CORES; i++) {
         threads[i].thread_index = i;
-        pthread_create(&threads[i].thread_id, NULL, readerThread, &threads[i]);
-        pthread_create(&threads[i].thread_id, NULL, analyzerThread, &threads[i]);
-        
+        threads[i].is_alive = false;
+        pthread_create(&threads[i].reader_thread_id, NULL, readerThread, &threads[i]);
+        pthread_create(&threads[i].analyzer_thread_id, NULL, analyzerThread, &threads[i]);
     }
 
     // Printer thread initialization
     pthread_create(&printer_thread, NULL, printerThread, NULL);
 
+    // Watchdog thread initialization
+    pthread_create(&watchdog_thread, NULL, watchdogThread, threads);
+
     for (int i = 0; i < NUM_CORES; i++) {
-        pthread_join(threads[i].thread_id, NULL);
+        pthread_join(threads[i].reader_thread_id, NULL);
+        pthread_join(threads[i].analyzer_thread_id, NULL);
     }
 
     pthread_join(printer_thread, NULL);
+    pthread_join(watchdog_thread, NULL);
 
     return 0;
 }
