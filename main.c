@@ -19,7 +19,7 @@ typedef struct {
     unsigned long system;  // Time used for system tasks
     unsigned long idle;    // Processor idle time
     unsigned long irq;     // Time used for servicing interrupts
-    unsigned long softirq; // Time used for servicing softirqs
+    unsigned long softirq; // Time used for servicing software interrupts
     unsigned long steal;   // Stolen time (virtualization) [OracleVM]
 } CPU_Data_t;
 
@@ -34,6 +34,13 @@ typedef struct {
     bool is_alive; // Thread status for watchdog thread
 } Thread_Data_t;
 #pragma pack(4) // Reset to previous alignment rule (enable padding)
+
+// Logger thread data
+typedef struct {
+    pthread_t logger_thread_id;
+    FILE* log_file;
+    pthread_mutex_t log_file_lock;
+} Logger_Data_t;
 
 static float printData[NUM_CORES]; // Shared data structure for CPU usage data
 static pthread_mutex_t printDataLock = PTHREAD_MUTEX_INITIALIZER; // Definition of printDataLock (mutex)
@@ -52,7 +59,7 @@ static void *readerThread(void *arg) {
             exit(EXIT_FAILURE);
         }
 
-        // Seek to the beginning of the file 
+        // Seek to the beginning of the file
         fseek(file, 0, SEEK_SET);
 
         // Read the overall CPU usage data
@@ -143,7 +150,7 @@ static void *analyzerThread(void *arg) {
 }
 
 static void *printerThread() {
-    
+
     while (1) {
         float total_cpu_usage = 0.0f;
         float average_cpu_usage = 0.0f;
@@ -187,9 +194,55 @@ static void *watchdogThread(void *arg) {
     return NULL;
 }
 
+static void *loggerThread(void *arg) {
+    Logger_Data_t *loggerData = (Logger_Data_t *)arg;
+    FILE *file;
+
+    while (1) {
+        // Open the log file
+        pthread_mutex_lock(&loggerData->log_file_lock); // Lock
+        file = loggerData->log_file;
+        pthread_mutex_unlock(&loggerData->log_file_lock); // Release
+
+        // Acquire the lock to safely access the shared printData structure
+        pthread_mutex_lock(&printDataLock);
+
+        // Write CPU usage data to the log file
+        for (int i = 0; i < NUM_CORES; i++) {
+            fprintf(file, "Thread %d CPU usage: %.2f%%\n", i, (double)printData[i]);
+        }
+
+        // Release the lock
+        pthread_mutex_unlock(&printDataLock);
+
+        // Sleep for 1s
+        sleep(1);
+    }
+
+    return NULL;
+}
+
+
 int main() {
     Thread_Data_t threads[NUM_CORES];
     pthread_t printer_thread, watchdog_thread;
+    Logger_Data_t loggerData;
+    loggerData.log_file = fopen("log.txt", "w"); // Open the log file for writing
+    if (loggerData.log_file == NULL) {
+        perror("Failed to open log file");
+        exit(EXIT_FAILURE);
+    }
+    pthread_mutex_init(&loggerData.log_file_lock, NULL); // Initialize the log file lock
+
+    // Set the log file pointer in the logger thread data
+    pthread_mutex_lock(&loggerData.log_file_lock);
+    loggerData.log_file = fopen("log.txt", "w"); // Open the log file for writing
+    pthread_mutex_unlock(&loggerData.log_file_lock);
+
+    if (loggerData.log_file == NULL) {
+        perror("Failed to open log file");
+        exit(EXIT_FAILURE);
+    }
 
     // Reader and analyzer thread initialization
     for (int i = 0; i < NUM_CORES; i++) {
@@ -205,6 +258,9 @@ int main() {
     // Watchdog thread initialization
     pthread_create(&watchdog_thread, NULL, watchdogThread, threads);
 
+    // Logger thread initialization
+    pthread_create(&loggerData.logger_thread_id, NULL, loggerThread, &loggerData);
+
     for (int i = 0; i < NUM_CORES; i++) {
         pthread_join(threads[i].reader_thread_id, NULL);
         pthread_join(threads[i].analyzer_thread_id, NULL);
@@ -212,6 +268,12 @@ int main() {
 
     pthread_join(printer_thread, NULL);
     pthread_join(watchdog_thread, NULL);
+    pthread_join(loggerData.logger_thread_id, NULL);
+
+    // Close the log file
+    pthread_mutex_lock(&loggerData.log_file_lock);
+    fclose(loggerData.log_file);
+    pthread_mutex_unlock(&loggerData.log_file_lock);
 
     return 0;
 }
