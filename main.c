@@ -12,22 +12,28 @@
 
 // A structure that stores data for each core
 typedef struct {
-    unsigned long user;   // Time used for user tasks
-    unsigned long nice;   // Time used for "nice" tasks
-    unsigned long system; // Time used for system tasks
-    unsigned long idle;   // Processor idle time
+    unsigned long user;    // Time used for user tasks
+    unsigned long nice;    // Time used for "nice" tasks
+    unsigned long system;  // Time used for system tasks
+    unsigned long idle;    // Processor idle time
+    unsigned long irq;     // Time used for servicing interrupts
+    unsigned long softirq; // Time used for servicing softirqs
+    unsigned long steal;   // Stolen time (virtualization) [OracleVM]
 } CPU_Data_t;
 
 // A structure that stores data for each thread
 typedef struct {
-    pthread_t thread_id;
-    int thread_index;
     CPU_Data_t prev_data;
+    __int64_t thread_index;
     CPU_Data_t curr_data;
+    pthread_t thread_id;
 } Thread_Data_t;
 
+static float printData[NUM_CORES]; // Shared data structure for CPU usage data
+static pthread_mutex_t printDataLock = PTHREAD_MUTEX_INITIALIZER; // Definition of printDataLock (mutex)
+
 // Reader thread
-void *readerThread(void *arg) {
+static void *readerThread(void *arg) {
     Thread_Data_t *threadData = (Thread_Data_t *)arg;
     char buffer[MAX_BUFFER];
 
@@ -40,7 +46,7 @@ void *readerThread(void *arg) {
             exit(EXIT_FAILURE);
         }
 
-        // Seek to the beginning of the file
+        // Seek to the beginning of the file 
         fseek(file, 0, SEEK_SET);
 
         // Read the overall CPU usage data
@@ -50,21 +56,29 @@ void *readerThread(void *arg) {
         }
 
         // Parse the CPU usage data
-        if (sscanf(buffer, "%*s %lu %lu %lu %lu", &(threadData->curr_data.user), &(threadData->curr_data.nice),
-                   &(threadData->curr_data.system), &(threadData->curr_data.idle)) != 4) {
+        if (sscanf(buffer, "%*s %lu %lu %lu %lu %lu %lu %lu",
+                   &(threadData->curr_data.user),
+                   &(threadData->curr_data.nice),
+                   &(threadData->curr_data.system),
+                   &(threadData->curr_data.idle),
+                   &(threadData->curr_data.irq),
+                   &(threadData->curr_data.softirq),
+                   &(threadData->curr_data.steal)) != 7) {
             fprintf(stderr, "Failed to parse CPU data\n");
             exit(EXIT_FAILURE);
         }
 
-        fclose(file); // Close the file pointer
+        // Close the file pointer
+        fclose(file);
 
-        sleep(1); // Sleep for 1s
+        // Sleep for 1s
+        sleep(1);
     }
 
     return NULL;
 }
 
-void *analyzerThread(void *arg) {
+static void *analyzerThread(void *arg) {
     Thread_Data_t *threadData = (Thread_Data_t *)arg;
 
     threadData->prev_data = threadData->curr_data; // Initialize prev_data
@@ -72,13 +86,21 @@ void *analyzerThread(void *arg) {
     while (1) {
 
         // Getting the values needed to calculate CPU usage
-        unsigned long prev_idle = threadData->prev_data.idle;
-        unsigned long curr_idle = threadData->curr_data.idle;
+        unsigned long prev_idle = threadData->prev_data.idle +
+                                  threadData->prev_data.irq +
+                                  threadData->prev_data.softirq;
+        unsigned long curr_idle = threadData->curr_data.idle +
+                                  threadData->curr_data.irq +
+                                  threadData->curr_data.softirq;
 
-        unsigned long prev_non_idle = threadData->prev_data.user + threadData->prev_data.nice +
-                                      threadData->prev_data.system;
-        unsigned long curr_non_idle = threadData->curr_data.user + threadData->curr_data.nice +
-                                      threadData->curr_data.system;
+        unsigned long prev_non_idle = threadData->prev_data.user +
+                                      threadData->prev_data.nice +
+                                      threadData->prev_data.system +
+                                      threadData->prev_data.steal;
+        unsigned long curr_non_idle = threadData->curr_data.user +
+                                      threadData->curr_data.nice +
+                                      threadData->curr_data.system +
+                                      threadData->curr_data.steal;
 
         unsigned long prev_total = prev_idle + prev_non_idle;
         unsigned long curr_total = curr_idle + curr_non_idle;
@@ -89,18 +111,40 @@ void *analyzerThread(void *arg) {
         // Calculating the percentage of CPU usage
         float cpu_usage;
         if (total_diff != 0) {
-            cpu_usage = (total_diff - idle_diff) * 100.0 / total_diff;
+            cpu_usage = (float)(total_diff - idle_diff) * 100.0f / (float)total_diff;
         } else {
-            cpu_usage = 0.0;
+            cpu_usage = 0.0f;
         }
 
-        // Test print
-        printf("Thread index: %d, CPU usage: %.2f%%\n", threadData->thread_index, cpu_usage);
+        // Acquire the lock to safely access the shared printData structure
+        pthread_mutex_lock(&printDataLock);
+        printData[threadData->thread_index] = cpu_usage;
+        pthread_mutex_unlock(&printDataLock);
 
         // Replace previous data with current data
         threadData->prev_data = threadData->curr_data;
 
-        sleep(1); // Sleep for 1s
+        // Sleep for 1s
+        sleep(1);
+    }
+
+    return NULL;
+}
+
+static void *printerThread() {
+    while (1) {
+        // Acquire the lock to safely access the shared printData structure
+        pthread_mutex_lock(&printDataLock);
+
+        // Print the CPU usage data from printData
+        for (int i = 0; i < NUM_CORES; i++) {
+            printf("Thread index: %d, CPU usage: %.2f%%\n", i, (double)printData[i]);
+        }
+
+        pthread_mutex_unlock(&printDataLock);
+
+        // Sleep for 1s
+        sleep(1);
     }
 
     return NULL;
@@ -108,18 +152,24 @@ void *analyzerThread(void *arg) {
 
 int main() {
     Thread_Data_t threads[NUM_CORES];
+    pthread_t printer_thread;
 
     // Reader and analyzer thread initialization
     for (int i = 0; i < NUM_CORES; i++) {
         threads[i].thread_index = i;
         pthread_create(&threads[i].thread_id, NULL, readerThread, &threads[i]);
         pthread_create(&threads[i].thread_id, NULL, analyzerThread, &threads[i]);
+        
     }
 
-     // Waiting for threads to end
+    // Printer thread initialization
+    pthread_create(&printer_thread, NULL, printerThread, NULL);
+
     for (int i = 0; i < NUM_CORES; i++) {
         pthread_join(threads[i].thread_id, NULL);
     }
+
+    pthread_join(printer_thread, NULL);
 
     return 0;
 }
