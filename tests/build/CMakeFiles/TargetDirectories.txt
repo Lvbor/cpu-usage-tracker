@@ -1,0 +1,3 @@
+/home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/tests/build/CMakeFiles/Test_Queue.dir
+/home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/tests/build/CMakeFiles/edit_cache.dir
+/home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/tests/build/CMakeFiles/rebuild_cache.dir

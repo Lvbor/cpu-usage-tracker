@@ -129,6 +129,19 @@ CPU_Tracker/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/build
 .PHONY : CPU_Tracker/fast
 
+#=============================================================================
+# Target rules for targets named Test_Queue
+
+# Build rule for target.
+Test_Queue: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Test_Queue
+.PHONY : Test_Queue
+
+# fast build rule for target.
+Test_Queue/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Queue.dir/build.make CMakeFiles/Test_Queue.dir/build
+.PHONY : Test_Queue/fast
+
 main.o: main.c.o
 .PHONY : main.o
 
@@ -255,6 +268,7 @@ src/queue.o: src/queue.c.o
 # target to build an object file
 src/queue.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/queue.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Queue.dir/build.make CMakeFiles/Test_Queue.dir/src/queue.c.o
 .PHONY : src/queue.c.o
 
 src/queue.i: src/queue.c.i
@@ -263,6 +277,7 @@ src/queue.i: src/queue.c.i
 # target to preprocess a source file
 src/queue.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/queue.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Queue.dir/build.make CMakeFiles/Test_Queue.dir/src/queue.c.i
 .PHONY : src/queue.c.i
 
 src/queue.s: src/queue.c.s
@@ -271,6 +286,7 @@ src/queue.s: src/queue.c.s
 # target to generate assembly for a file
 src/queue.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/queue.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Queue.dir/build.make CMakeFiles/Test_Queue.dir/src/queue.c.s
 .PHONY : src/queue.c.s
 
 src/reader.o: src/reader.c.o
@@ -321,6 +337,30 @@ src/watchdog.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/watchdog.c.s
 .PHONY : src/watchdog.c.s
 
+tests/test_queue.o: tests/test_queue.c.o
+.PHONY : tests/test_queue.o
+
+# target to build an object file
+tests/test_queue.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Queue.dir/build.make CMakeFiles/Test_Queue.dir/tests/test_queue.c.o
+.PHONY : tests/test_queue.c.o
+
+tests/test_queue.i: tests/test_queue.c.i
+.PHONY : tests/test_queue.i
+
+# target to preprocess a source file
+tests/test_queue.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Queue.dir/build.make CMakeFiles/Test_Queue.dir/tests/test_queue.c.i
+.PHONY : tests/test_queue.c.i
+
+tests/test_queue.s: tests/test_queue.c.s
+.PHONY : tests/test_queue.s
+
+# target to generate assembly for a file
+tests/test_queue.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Test_Queue.dir/build.make CMakeFiles/Test_Queue.dir/tests/test_queue.c.s
+.PHONY : tests/test_queue.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -330,6 +370,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... CPU_Tracker"
+	@echo "... Test_Queue"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
@@ -354,6 +395,9 @@ help:
 	@echo "... src/watchdog.o"
 	@echo "... src/watchdog.i"
 	@echo "... src/watchdog.s"
+	@echo "... tests/test_queue.o"
+	@echo "... tests/test_queue.i"
+	@echo "... tests/test_queue.s"
 .PHONY : help
 
 

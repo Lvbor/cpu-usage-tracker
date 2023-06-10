@@ -26,8 +26,18 @@ set(SOURCES
     src/logger.c
 )
 
+# Create the main executable target
 add_executable(CPU_Tracker ${SOURCES})
 
 # Link pthread library
 find_package(Threads REQUIRED)
 target_link_libraries(CPU_Tracker Threads::Threads)
+
+# Add test executable
+add_executable(Test_Queue
+    tests/test_queue.c
+    ../src/queue.c
+)
+
+# Link pthread library for the test executable
+target_link_libraries(Test_Queue Threads::Threads)

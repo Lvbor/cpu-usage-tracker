@@ -1,0 +1,1 @@
+/usr/bin/cc -rdynamic CMakeFiles/Test_Queue.dir/home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/queue.c.o CMakeFiles/Test_Queue.dir/test_queue.c.o -o Test_Queue 
