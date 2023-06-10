@@ -8,11 +8,13 @@
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>
+#include <sys/time.h>
 
 // Defines
 #define NUM_CORES 4
 #define MAX_BUFFER 256
 #define WATCHDOG_TIMEOUT 2
+#define QUEUE_SIZE 10
 
 // A structure that stores data for each core
 typedef struct
@@ -35,22 +37,144 @@ typedef struct
     pthread_t reader_thread_id;
     pthread_t analyzer_thread_id;
     __int32_t thread_index;
-    bool is_alive; // Thread status for watchdog thread
+    bool is_alive_reader;   // Thread status for watchdog thread
+    bool is_alive_analyzer; // Thread status for watchdog thread
 } Thread_Data_t;
 #pragma pack(4) // Reset to previous alignment rule (enable padding)
 
 // Logger thread data
 typedef struct
 {
-    pthread_t logger_thread_id;
-    FILE *log_file;
-    pthread_mutex_t log_file_lock;
+    pthread_t logger_thread_id;    
+    FILE *log_file;                
+    pthread_mutex_t log_file_lock; // Mutex lock for synchronizing access to the log file
 } Logger_Data_t;
 
-static float printData[NUM_CORES];                                // Shared data structure for CPU usage data
-static pthread_mutex_t printDataLock = PTHREAD_MUTEX_INITIALIZER; // Definition of printDataLock (mutex)
-static volatile sig_atomic_t flagSigTerm = 0;                     // Flag which detects SIGTERM signal
-static Thread_Data_t threads[NUM_CORES];                          // Array of Thread_Data_t structures to store data for each thread.
+
+typedef struct node
+{
+    float value;       // Value stored in the node
+    struct node *next; // Pointer to the next node in the linked list
+} Node;
+
+typedef struct queue
+{
+    Node *head;   // Pointer to the head of the queue
+    Node *tail;   // Pointer to the tail of the queue
+    int count;    // Number of elements currently in the queue
+    int capacity; // Maximum capacity of the queue
+} Queue;
+
+static volatile sig_atomic_t flagSigTerm = 0;                 // Flag which detects SIGTERM signal
+static volatile sig_atomic_t watchdogFlag = 0;                // Flag which detects when watchdog detected an issue
+static Thread_Data_t threads[NUM_CORES];                      // Array of Thread_Data_t structures to store data for each thread.
+static Queue *cpuUsageQueue;                                  // Queue for CPU usage data
+static pthread_mutex_t queueLock = PTHREAD_MUTEX_INITIALIZER; // Mutex lock for synchronizing access to the queue
+static pthread_t printer_thread, watchdog_thread;             // Initialize printer and watchdog as global threads
+static time_t startTime; // Timer to store the starting time
+
+// Queue initialization
+static Queue *initQueue(int capacity)
+{
+    Queue *queue = (Queue *)malloc(sizeof(Queue)); // Allocate memory for the Queue structure
+    queue->head = NULL;
+    queue->tail = NULL;
+    queue->count = 0;
+    queue->capacity = capacity;
+    return queue;
+}
+
+// Adding elements to the queue
+static void enqueue(Queue *queue, float value)
+{
+    // Create a new node
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->value = value;
+    newNode->next = NULL;
+    
+    // If the queue is full, return without adding the new node
+    if (queue->count == queue->capacity)
+    {
+        return;
+    }
+    
+    // If the queue is not empty, update the next pointer of the current tail to the new node
+    if (queue->tail != NULL)
+    {
+        queue->tail->next = newNode;
+    }
+    
+    // Update the tail of the queue to point to the new node
+    queue->tail = newNode;
+    
+    // If the queue is empty, update the head to point to the new node as well
+    if (queue->head == NULL)
+    {
+        queue->head = newNode;
+    }
+    
+    queue->count++;
+}
+
+// Taking elements from the queue
+static float dequeue(Queue *queue)
+{
+    // Store the head node
+    Node *temp = queue->head;
+    
+    // Store the value of the head node
+    float value = temp->value;
+    
+    // If the queue is empty, return -1
+    if (queue->count == 0)
+    {
+        return -1.0;
+    }
+    
+    // Update the head of the queue to point to the next node
+    queue->head = queue->head->next;
+    
+    if (queue->head == NULL)
+    {
+        queue->tail = NULL;
+    }
+    
+    // Free the memory allocated for the dequeued node
+    free(temp);
+    
+    queue->count--;
+    
+    return value;
+}
+
+static int isFull(Queue *queue)
+{
+    // Check if the count of elements in the queue is equal to the queue's capacity
+    return queue->count == queue->capacity;
+}
+
+static int isEmpty(Queue *queue)
+{
+    // Check if the count of elements in the queue is 0
+    return queue->count == 0;
+}
+
+static void freeQueue(Queue *queue)
+{
+    Node *temp = queue->head;
+    Node *nextNode;
+
+    // Deallocate all nodes
+    while (temp != NULL)
+    {
+        nextNode = temp->next;
+        free(temp);
+        temp = nextNode;
+    }
+
+    // Deallocate the queue
+    free(queue);
+}
 
 // Signal handler function for SIGTERM signal
 static void sigHandler(int signal)
@@ -111,7 +235,7 @@ static void *readerThread(void *arg)
         sleep(1);
 
         // Set the thread as alive
-        threadData->is_alive = true;
+        threadData->is_alive_reader = true;
     }
 
     return NULL;
@@ -121,7 +245,7 @@ static void *analyzerThread(void *arg)
 {
     Thread_Data_t *threadData = (Thread_Data_t *)arg;
 
-    threadData->prev_data = threadData->curr_data; // Initialize prev_data
+    threadData->prev_data = threadData->curr_data; 
 
     while (!flagSigTerm)
     {
@@ -159,10 +283,13 @@ static void *analyzerThread(void *arg)
             cpu_usage = 0.0f;
         }
 
-        // Acquire the lock to safely access the shared printData structure
-        pthread_mutex_lock(&printDataLock);
-        printData[threadData->thread_index] = cpu_usage;
-        pthread_mutex_unlock(&printDataLock);
+        // Push the CPU usage to the queue
+        pthread_mutex_lock(&queueLock);
+        if (!isFull(cpuUsageQueue))
+        {
+            enqueue(cpuUsageQueue, cpu_usage);
+        }
+        pthread_mutex_unlock(&queueLock);
 
         // Replace previous data with current data
         threadData->prev_data = threadData->curr_data;
@@ -171,7 +298,7 @@ static void *analyzerThread(void *arg)
         sleep(1);
 
         // Set the thread as alive
-        threadData->is_alive = true;
+        threadData->is_alive_analyzer = true;
     }
 
     return NULL;
@@ -185,14 +312,13 @@ static void *printerThread()
         float total_cpu_usage = 0.0f;
         float average_cpu_usage = 0.0f;
 
-        // Acquire the lock to safely access the shared printData structure
-        pthread_mutex_lock(&printDataLock);
-
-        // Calculate the total CPU usage
-        for (int i = 0; i < NUM_CORES; i++)
+        // Fetch the CPU usage from the queue
+        pthread_mutex_lock(&queueLock);
+        while (!isEmpty(cpuUsageQueue))
         {
-            total_cpu_usage += printData[i];
+            total_cpu_usage += dequeue(cpuUsageQueue);
         }
+        pthread_mutex_unlock(&queueLock);
 
         // Calculate the average CPU usage
         if (NUM_CORES != 0)
@@ -203,9 +329,6 @@ static void *printerThread()
         {
             average_cpu_usage = 0.0f;
         }
-
-        // Release the lock
-        pthread_mutex_unlock(&printDataLock);
 
         printf("Average CPU usage: %.2f%%\n", (double)average_cpu_usage);
 
@@ -221,62 +344,96 @@ static void *watchdogThread()
 
     while (!flagSigTerm)
     {
-        sleep(WATCHDOG_TIMEOUT);
+        sleep(WATCHDOG_TIMEOUT); // Sleep for the WATCHDOG_TIMEOUT duration
+        
         for (int i = 0; i < NUM_CORES; i++)
         {
-            if (!threads[i].is_alive)
+            if (!threads[i].is_alive_analyzer || !threads[i].is_alive_reader)
             {
+                // If a thread did not report in time, print an error message
                 fprintf(stderr, "Thread %d did not report in time. Exiting...\n", i);
-                exit(EXIT_FAILURE);
+                
+                // Set the watchdogFlag to 1 to indicate an error
+                watchdogFlag = 1;
+                
+                // Raise the SIGTERM signal to terminate the program
+                raise(SIGTERM);
             }
             else
             {
-                threads[i].is_alive = false;
+                // Reset the alive status of both analyzer and reader threads
+                threads[i].is_alive_analyzer = false;
+                threads[i].is_alive_reader = false;
             }
         }
     }
-
     return NULL;
 }
 
 static void *loggerThread(void *arg)
 {
     Logger_Data_t *loggerData = (Logger_Data_t *)arg;
-    FILE *file;
+    FILE *file = NULL;
+    bool initflag = true;
 
     while (!flagSigTerm)
     {
+        // Get the current time and calculate the program uptime
+        time_t currentTime = time(NULL);
+        double uptime = difftime(currentTime, startTime);
         // Open the log file
         pthread_mutex_lock(&loggerData->log_file_lock); // Lock
         file = loggerData->log_file;
-        pthread_mutex_unlock(&loggerData->log_file_lock); // Release
 
         if (file != NULL)
         {
-            // Acquire the lock to safely access the shared printData structure
-            pthread_mutex_lock(&printDataLock);
-
-            // Write CPU usage data to the log file
-            for (int i = 0; i < NUM_CORES; i++)
+            // Print information about thread initializations
+            while (initflag == true)
             {
-                fprintf(file, "Thread %d CPU usage: %.2f%%\n", i, (double)printData[i]);
+                fprintf(file, "Thread Initialization Information:\n\n");
+                for (int i = 0; i < NUM_CORES; i++)
+                {
+                    fprintf(file, "Thread %d:\n", i);
+                    fprintf(file, "Reader Thread ID: %lu\n", threads[i].reader_thread_id);
+                    fprintf(file, "Analyzer Thread ID: %lu\n", threads[i].analyzer_thread_id);
+                }
+                fprintf(file, "\nOthers:");
+                fprintf(file, "\nPrinter Thread ID: %lu\n", printer_thread);
+                fprintf(file, "Watchdog Thread ID: %lu\n", watchdog_thread);
+                initflag = false;
+                fprintf(file, "\nInitialization complete!\n");
             }
-
-            // Release the lock
-            pthread_mutex_unlock(&printDataLock);
+            if (threads->is_alive_analyzer == true && threads->is_alive_reader == true)
+            {
+                fprintf(file, "\nProgram uptime: %.2fs\n", uptime);
+                fprintf(file, "Current data:\nidle: %lu irq: %lu nice: %lu softirq: %lu steal: %lu system: %lu user: %lu", 
+                threads->curr_data.idle, threads->curr_data.irq,threads->curr_data.nice, threads->curr_data.softirq, 
+                threads->curr_data.steal, threads->curr_data.system, threads->curr_data.user);
+                fprintf(file, "\nAll threads are currently alive!\n");
+            }
         }
+
+        pthread_mutex_unlock(&loggerData->log_file_lock); // Release the lock
 
         // Sleep for 1s
         sleep(1);
+    }
+    if (watchdogFlag == 1)
+    {
+        fprintf(file, "\nWatchdog: One or more threads did not report in time.\n");
+    }
+    if (flagSigTerm == 1)
+    {
+        fprintf(file, "\nSigterm signal raised! Exitting gracefully...\n");
     }
     return NULL;
 }
 
 int main()
 {
-    pthread_t printer_thread, watchdog_thread;
     Logger_Data_t loggerData;
     struct sigaction action;
+    startTime = time(NULL);
     memset(&action, 0, sizeof(struct sigaction));
 #if defined(__clang__)
 #pragma GCC diagnostic push
@@ -292,6 +449,7 @@ union, not the sa_handler macro, so I decided to disable this warning for the cl
 #endif
     sigaction(SIGTERM, &action, NULL);
     printf("Process ID: %d\n", getpid());
+    cpuUsageQueue = initQueue(QUEUE_SIZE);       // Initialize the queue
     loggerData.log_file = fopen("log.txt", "w"); // Open the log file for writing
     if (loggerData.log_file == NULL)
     {
@@ -310,7 +468,8 @@ union, not the sa_handler macro, so I decided to disable this warning for the cl
     for (int i = 0; i < NUM_CORES; i++)
     {
         threads[i].thread_index = i;
-        threads[i].is_alive = false;
+        threads[i].is_alive_analyzer = false;
+        threads[i].is_alive_reader = false;
         pthread_create(&threads[i].reader_thread_id, NULL, readerThread, &threads[i]);
         pthread_create(&threads[i].analyzer_thread_id, NULL, analyzerThread, &threads[i]);
     }
@@ -323,7 +482,7 @@ union, not the sa_handler macro, so I decided to disable this warning for the cl
 
     // Logger thread initialization
     pthread_create(&loggerData.logger_thread_id, NULL, loggerThread, &loggerData);
-    
+
     while (!flagSigTerm)
     {
         for (int i = 0; i < NUM_CORES; i++)
@@ -337,6 +496,7 @@ union, not the sa_handler macro, so I decided to disable this warning for the cl
         pthread_join(loggerData.logger_thread_id, NULL);
     }
 
+    // Cleanup
     // Close the log file
     pthread_mutex_lock(&loggerData.log_file_lock);
     if (fclose(loggerData.log_file) != 0)
@@ -345,6 +505,8 @@ union, not the sa_handler macro, so I decided to disable this warning for the cl
         exit(EXIT_FAILURE);
     }
     pthread_mutex_unlock(&loggerData.log_file_lock);
+    // Free up queue memory
+    freeQueue(cpuUsageQueue);
     printf("Cleaning successful\n");
 
     return 0;

@@ -1,24 +1,67 @@
-Thread 0 CPU usage: 0.00%
-Thread 1 CPU usage: 0.00%
-Thread 2 CPU usage: 0.00%
-Thread 3 CPU usage: 0.00%
-Thread 0 CPU usage: 4.70%
-Thread 1 CPU usage: 29.86%
-Thread 2 CPU usage: 0.00%
-Thread 3 CPU usage: 4.70%
-Thread 0 CPU usage: 23.98%
-Thread 1 CPU usage: 21.22%
-Thread 2 CPU usage: 0.00%
-Thread 3 CPU usage: 24.07%
-Thread 0 CPU usage: 24.14%
-Thread 1 CPU usage: 14.87%
-Thread 2 CPU usage: 19.76%
-Thread 3 CPU usage: 19.84%
-Thread 0 CPU usage: 21.13%
-Thread 1 CPU usage: 29.43%
-Thread 2 CPU usage: 28.63%
-Thread 3 CPU usage: 28.36%
-Thread 0 CPU usage: 0.00%
-Thread 1 CPU usage: 14.04%
-Thread 2 CPU usage: 28.63%
-Thread 3 CPU usage: 28.36%
+Thread Initialization Information:
+
+Thread 0:
+Reader Thread ID: 98821696
+Analyzer Thread ID: 107214400
+Thread 1:
+Reader Thread ID: 115607104
+Analyzer Thread ID: 123999808
+Thread 2:
+Reader Thread ID: 132392512
+Analyzer Thread ID: 140785216
+Thread 3:
+Reader Thread ID: 149177920
+Analyzer Thread ID: 157570624
+
+Others:
+Printer Thread ID: 165963328
+Watchdog Thread ID: 174356032
+
+Initialization complete!
+
+Program uptime: 1.00s
+Current data:
+idle: 8484795 irq: 12010 nice: 2040 softirq: 0 steal: 43966 system: 503791 user: 247371
+All threads are currently alive!
+
+Program uptime: 2.00s
+Current data:
+idle: 8485509 irq: 12010 nice: 2040 softirq: 0 steal: 43968 system: 503813 user: 247386
+All threads are currently alive!
+
+Program uptime: 3.00s
+Current data:
+idle: 8486152 irq: 12010 nice: 2040 softirq: 0 steal: 43973 system: 503878 user: 247414
+All threads are currently alive!
+
+Program uptime: 4.00s
+Current data:
+idle: 8486872 irq: 12010 nice: 2040 softirq: 0 steal: 43974 system: 503901 user: 247442
+All threads are currently alive!
+
+Program uptime: 5.00s
+Current data:
+idle: 8487630 irq: 12011 nice: 2040 softirq: 0 steal: 43976 system: 503916 user: 247455
+All threads are currently alive!
+
+Program uptime: 6.00s
+Current data:
+idle: 8488269 irq: 12011 nice: 2040 softirq: 0 steal: 43978 system: 503974 user: 247497
+All threads are currently alive!
+
+Program uptime: 7.00s
+Current data:
+idle: 8488910 irq: 12011 nice: 2040 softirq: 0 steal: 43981 system: 504035 user: 247539
+All threads are currently alive!
+
+Program uptime: 9.00s
+Current data:
+idle: 8490250 irq: 12013 nice: 2040 softirq: 0 steal: 43985 system: 504132 user: 247596
+All threads are currently alive!
+
+Program uptime: 11.00s
+Current data:
+idle: 8491485 irq: 12014 nice: 2040 softirq: 0 steal: 43988 system: 504268 user: 247723
+All threads are currently alive!
+
+Sigterm signal raised! Exitting gracefully...
