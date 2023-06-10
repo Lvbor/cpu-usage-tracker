@@ -339,6 +339,7 @@ static void *printerThread()
     return NULL;
 }
 
+// Watchdog thread
 static void *watchdogThread()
 {
 
