@@ -82,4 +82,11 @@ CMakeFiles/CPU_Tracker.dir/main.c.o: \
  /usr/include/x86_64-linux-gnu/sys/time.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
  /usr/include/x86_64-linux-gnu/sys/select.h \
- /usr/include/x86_64-linux-gnu/bits/select.h
+ /usr/include/x86_64-linux-gnu/bits/select.h \
+ /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/queue.h \
+ /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/handler.h \
+ /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/reader.h \
+ /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/analyzer.h \
+ /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/printer.h \
+ /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/watchdog.h \
+ /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/logger.h

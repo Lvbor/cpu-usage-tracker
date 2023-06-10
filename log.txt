@@ -21,47 +21,22 @@ Initialization complete!
 
 Program uptime: 1.00s
 Current data:
-idle: 8484795 irq: 12010 nice: 2040 softirq: 0 steal: 43966 system: 503791 user: 247371
-All threads are currently alive!
-
-Program uptime: 2.00s
-Current data:
-idle: 8485509 irq: 12010 nice: 2040 softirq: 0 steal: 43968 system: 503813 user: 247386
+idle: 18868648 irq: 14420 nice: 2252 softirq: 0 steal: 78261 system: 962574 user: 470610
 All threads are currently alive!
 
 Program uptime: 3.00s
 Current data:
-idle: 8486152 irq: 12010 nice: 2040 softirq: 0 steal: 43973 system: 503878 user: 247414
-All threads are currently alive!
-
-Program uptime: 4.00s
-Current data:
-idle: 8486872 irq: 12010 nice: 2040 softirq: 0 steal: 43974 system: 503901 user: 247442
+idle: 18869574 irq: 14422 nice: 2252 softirq: 0 steal: 78282 system: 962861 user: 470783
 All threads are currently alive!
 
 Program uptime: 5.00s
 Current data:
-idle: 8487630 irq: 12011 nice: 2040 softirq: 0 steal: 43976 system: 503916 user: 247455
-All threads are currently alive!
-
-Program uptime: 6.00s
-Current data:
-idle: 8488269 irq: 12011 nice: 2040 softirq: 0 steal: 43978 system: 503974 user: 247497
+idle: 18870859 irq: 14422 nice: 2252 softirq: 0 steal: 78288 system: 962974 user: 470893
 All threads are currently alive!
 
 Program uptime: 7.00s
 Current data:
-idle: 8488910 irq: 12011 nice: 2040 softirq: 0 steal: 43981 system: 504035 user: 247539
-All threads are currently alive!
-
-Program uptime: 9.00s
-Current data:
-idle: 8490250 irq: 12013 nice: 2040 softirq: 0 steal: 43985 system: 504132 user: 247596
-All threads are currently alive!
-
-Program uptime: 11.00s
-Current data:
-idle: 8491485 irq: 12014 nice: 2040 softirq: 0 steal: 43988 system: 504268 user: 247723
+idle: 18872077 irq: 14423 nice: 2252 softirq: 0 steal: 78290 system: 963117 user: 471036
 All threads are currently alive!
 
 Sigterm signal raised! Exitting gracefully...

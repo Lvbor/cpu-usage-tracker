@@ -1,62 +1,47 @@
 Thread Initialization Information:
 
 Thread 0:
-Reader Thread ID: 140388157355584
-Analyzer Thread ID: 140388148962880
+Reader Thread ID: 140717814969920
+Analyzer Thread ID: 140717806577216
 Thread 1:
-Reader Thread ID: 140388140570176
-Analyzer Thread ID: 140388132177472
+Reader Thread ID: 140717798184512
+Analyzer Thread ID: 140717789791808
 Thread 2:
-Reader Thread ID: 140388052497984
-Analyzer Thread ID: 140388044105280
+Reader Thread ID: 140717781399104
+Analyzer Thread ID: 140717773006400
 Thread 3:
-Reader Thread ID: 140388035712576
-Analyzer Thread ID: 140388027319872
+Reader Thread ID: 140717557020224
+Analyzer Thread ID: 140717548627520
 
 Others:
-Printer Thread ID: 140388018927168
-Watchdog Thread ID: 140388010534464
+Printer Thread ID: 140717540234816
+Watchdog Thread ID: 140717531842112
 
 Initialization complete!
 
-Program uptime: 2.00s
+Program uptime: 1.00s
 Current data:
-idle: 10156228 irq: 12351 nice: 2042 softirq: 0 steal: 48056 system: 565889 user: 279697
+idle: 18986649 irq: 14464 nice: 2252 softirq: 0 steal: 78838 system: 970868 user: 475277
 All threads are currently alive!
 
 Program uptime: 3.00s
 Current data:
-idle: 10156228 irq: 12351 nice: 2042 softirq: 0 steal: 48056 system: 565889 user: 279697
+idle: 18987853 irq: 14464 nice: 2252 softirq: 0 steal: 78840 system: 971028 user: 475413
 All threads are currently alive!
 
 Program uptime: 5.00s
 Current data:
-idle: 10157185 irq: 12351 nice: 2042 softirq: 0 steal: 48072 system: 566239 user: 279823
-All threads are currently alive!
-
-Program uptime: 6.00s
-Current data:
-idle: 10158262 irq: 12354 nice: 2042 softirq: 0 steal: 48087 system: 566470 user: 279942
-All threads are currently alive!
-
-Program uptime: 7.00s
-Current data:
-idle: 10158585 irq: 12354 nice: 2042 softirq: 0 steal: 48107 system: 566738 user: 280010
-All threads are currently alive!
-
-Program uptime: 8.00s
-Current data:
-idle: 10159298 irq: 12354 nice: 2042 softirq: 0 steal: 48108 system: 566772 user: 280037
+idle: 18988912 irq: 14464 nice: 2252 softirq: 0 steal: 78848 system: 971261 user: 475556
 All threads are currently alive!
 
 Program uptime: 9.00s
 Current data:
-idle: 10159811 irq: 12354 nice: 2042 softirq: 0 steal: 48110 system: 566889 user: 280135
+idle: 18991353 irq: 14468 nice: 2252 softirq: 0 steal: 78852 system: 971530 user: 475844
 All threads are currently alive!
 
 Program uptime: 10.00s
 Current data:
-idle: 10160537 irq: 12354 nice: 2042 softirq: 0 steal: 48113 system: 566912 user: 280162
+idle: 18991915 irq: 14468 nice: 2252 softirq: 0 steal: 78855 system: 971627 user: 475926
 All threads are currently alive!
 
 Sigterm signal raised! Exitting gracefully...

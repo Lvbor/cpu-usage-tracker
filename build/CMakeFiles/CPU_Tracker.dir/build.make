@@ -83,17 +83,129 @@ CMakeFiles/CPU_Tracker.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/CPU_Tracker.dir/main.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/main.c -o CMakeFiles/CPU_Tracker.dir/main.c.s
 
+CMakeFiles/CPU_Tracker.dir/src/queue.c.o: CMakeFiles/CPU_Tracker.dir/flags.make
+CMakeFiles/CPU_Tracker.dir/src/queue.c.o: ../src/queue.c
+CMakeFiles/CPU_Tracker.dir/src/queue.c.o: CMakeFiles/CPU_Tracker.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/CPU_Tracker.dir/src/queue.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/CPU_Tracker.dir/src/queue.c.o -MF CMakeFiles/CPU_Tracker.dir/src/queue.c.o.d -o CMakeFiles/CPU_Tracker.dir/src/queue.c.o -c /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/queue.c
+
+CMakeFiles/CPU_Tracker.dir/src/queue.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/CPU_Tracker.dir/src/queue.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/queue.c > CMakeFiles/CPU_Tracker.dir/src/queue.c.i
+
+CMakeFiles/CPU_Tracker.dir/src/queue.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/CPU_Tracker.dir/src/queue.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/queue.c -o CMakeFiles/CPU_Tracker.dir/src/queue.c.s
+
+CMakeFiles/CPU_Tracker.dir/src/handler.c.o: CMakeFiles/CPU_Tracker.dir/flags.make
+CMakeFiles/CPU_Tracker.dir/src/handler.c.o: ../src/handler.c
+CMakeFiles/CPU_Tracker.dir/src/handler.c.o: CMakeFiles/CPU_Tracker.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/CPU_Tracker.dir/src/handler.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/CPU_Tracker.dir/src/handler.c.o -MF CMakeFiles/CPU_Tracker.dir/src/handler.c.o.d -o CMakeFiles/CPU_Tracker.dir/src/handler.c.o -c /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/handler.c
+
+CMakeFiles/CPU_Tracker.dir/src/handler.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/CPU_Tracker.dir/src/handler.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/handler.c > CMakeFiles/CPU_Tracker.dir/src/handler.c.i
+
+CMakeFiles/CPU_Tracker.dir/src/handler.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/CPU_Tracker.dir/src/handler.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/handler.c -o CMakeFiles/CPU_Tracker.dir/src/handler.c.s
+
+CMakeFiles/CPU_Tracker.dir/src/reader.c.o: CMakeFiles/CPU_Tracker.dir/flags.make
+CMakeFiles/CPU_Tracker.dir/src/reader.c.o: ../src/reader.c
+CMakeFiles/CPU_Tracker.dir/src/reader.c.o: CMakeFiles/CPU_Tracker.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/CPU_Tracker.dir/src/reader.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/CPU_Tracker.dir/src/reader.c.o -MF CMakeFiles/CPU_Tracker.dir/src/reader.c.o.d -o CMakeFiles/CPU_Tracker.dir/src/reader.c.o -c /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/reader.c
+
+CMakeFiles/CPU_Tracker.dir/src/reader.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/CPU_Tracker.dir/src/reader.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/reader.c > CMakeFiles/CPU_Tracker.dir/src/reader.c.i
+
+CMakeFiles/CPU_Tracker.dir/src/reader.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/CPU_Tracker.dir/src/reader.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/reader.c -o CMakeFiles/CPU_Tracker.dir/src/reader.c.s
+
+CMakeFiles/CPU_Tracker.dir/src/analyzer.c.o: CMakeFiles/CPU_Tracker.dir/flags.make
+CMakeFiles/CPU_Tracker.dir/src/analyzer.c.o: ../src/analyzer.c
+CMakeFiles/CPU_Tracker.dir/src/analyzer.c.o: CMakeFiles/CPU_Tracker.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/CPU_Tracker.dir/src/analyzer.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/CPU_Tracker.dir/src/analyzer.c.o -MF CMakeFiles/CPU_Tracker.dir/src/analyzer.c.o.d -o CMakeFiles/CPU_Tracker.dir/src/analyzer.c.o -c /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/analyzer.c
+
+CMakeFiles/CPU_Tracker.dir/src/analyzer.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/CPU_Tracker.dir/src/analyzer.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/analyzer.c > CMakeFiles/CPU_Tracker.dir/src/analyzer.c.i
+
+CMakeFiles/CPU_Tracker.dir/src/analyzer.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/CPU_Tracker.dir/src/analyzer.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/analyzer.c -o CMakeFiles/CPU_Tracker.dir/src/analyzer.c.s
+
+CMakeFiles/CPU_Tracker.dir/src/printer.c.o: CMakeFiles/CPU_Tracker.dir/flags.make
+CMakeFiles/CPU_Tracker.dir/src/printer.c.o: ../src/printer.c
+CMakeFiles/CPU_Tracker.dir/src/printer.c.o: CMakeFiles/CPU_Tracker.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/CPU_Tracker.dir/src/printer.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/CPU_Tracker.dir/src/printer.c.o -MF CMakeFiles/CPU_Tracker.dir/src/printer.c.o.d -o CMakeFiles/CPU_Tracker.dir/src/printer.c.o -c /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/printer.c
+
+CMakeFiles/CPU_Tracker.dir/src/printer.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/CPU_Tracker.dir/src/printer.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/printer.c > CMakeFiles/CPU_Tracker.dir/src/printer.c.i
+
+CMakeFiles/CPU_Tracker.dir/src/printer.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/CPU_Tracker.dir/src/printer.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/printer.c -o CMakeFiles/CPU_Tracker.dir/src/printer.c.s
+
+CMakeFiles/CPU_Tracker.dir/src/watchdog.c.o: CMakeFiles/CPU_Tracker.dir/flags.make
+CMakeFiles/CPU_Tracker.dir/src/watchdog.c.o: ../src/watchdog.c
+CMakeFiles/CPU_Tracker.dir/src/watchdog.c.o: CMakeFiles/CPU_Tracker.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/CPU_Tracker.dir/src/watchdog.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/CPU_Tracker.dir/src/watchdog.c.o -MF CMakeFiles/CPU_Tracker.dir/src/watchdog.c.o.d -o CMakeFiles/CPU_Tracker.dir/src/watchdog.c.o -c /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/watchdog.c
+
+CMakeFiles/CPU_Tracker.dir/src/watchdog.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/CPU_Tracker.dir/src/watchdog.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/watchdog.c > CMakeFiles/CPU_Tracker.dir/src/watchdog.c.i
+
+CMakeFiles/CPU_Tracker.dir/src/watchdog.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/CPU_Tracker.dir/src/watchdog.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/watchdog.c -o CMakeFiles/CPU_Tracker.dir/src/watchdog.c.s
+
+CMakeFiles/CPU_Tracker.dir/src/logger.c.o: CMakeFiles/CPU_Tracker.dir/flags.make
+CMakeFiles/CPU_Tracker.dir/src/logger.c.o: ../src/logger.c
+CMakeFiles/CPU_Tracker.dir/src/logger.c.o: CMakeFiles/CPU_Tracker.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/CPU_Tracker.dir/src/logger.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/CPU_Tracker.dir/src/logger.c.o -MF CMakeFiles/CPU_Tracker.dir/src/logger.c.o.d -o CMakeFiles/CPU_Tracker.dir/src/logger.c.o -c /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/logger.c
+
+CMakeFiles/CPU_Tracker.dir/src/logger.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/CPU_Tracker.dir/src/logger.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/logger.c > CMakeFiles/CPU_Tracker.dir/src/logger.c.i
+
+CMakeFiles/CPU_Tracker.dir/src/logger.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/CPU_Tracker.dir/src/logger.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src/logger.c -o CMakeFiles/CPU_Tracker.dir/src/logger.c.s
+
 # Object files for target CPU_Tracker
 CPU_Tracker_OBJECTS = \
-"CMakeFiles/CPU_Tracker.dir/main.c.o"
+"CMakeFiles/CPU_Tracker.dir/main.c.o" \
+"CMakeFiles/CPU_Tracker.dir/src/queue.c.o" \
+"CMakeFiles/CPU_Tracker.dir/src/handler.c.o" \
+"CMakeFiles/CPU_Tracker.dir/src/reader.c.o" \
+"CMakeFiles/CPU_Tracker.dir/src/analyzer.c.o" \
+"CMakeFiles/CPU_Tracker.dir/src/printer.c.o" \
+"CMakeFiles/CPU_Tracker.dir/src/watchdog.c.o" \
+"CMakeFiles/CPU_Tracker.dir/src/logger.c.o"
 
 # External object files for target CPU_Tracker
 CPU_Tracker_EXTERNAL_OBJECTS =
 
 CPU_Tracker: CMakeFiles/CPU_Tracker.dir/main.c.o
+CPU_Tracker: CMakeFiles/CPU_Tracker.dir/src/queue.c.o
+CPU_Tracker: CMakeFiles/CPU_Tracker.dir/src/handler.c.o
+CPU_Tracker: CMakeFiles/CPU_Tracker.dir/src/reader.c.o
+CPU_Tracker: CMakeFiles/CPU_Tracker.dir/src/analyzer.c.o
+CPU_Tracker: CMakeFiles/CPU_Tracker.dir/src/printer.c.o
+CPU_Tracker: CMakeFiles/CPU_Tracker.dir/src/watchdog.c.o
+CPU_Tracker: CMakeFiles/CPU_Tracker.dir/src/logger.c.o
 CPU_Tracker: CMakeFiles/CPU_Tracker.dir/build.make
 CPU_Tracker: CMakeFiles/CPU_Tracker.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable CPU_Tracker"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking C executable CPU_Tracker"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/CPU_Tracker.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

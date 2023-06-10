@@ -9,9 +9,24 @@ if(DEFINED ENV{CC})
 endif()
 
 # Include headers
-include_directories(${PROJECT_SOURCE_DIR})
+include_directories(
+    ${PROJECT_SOURCE_DIR}
+    ${PROJECT_SOURCE_DIR}/src
+)
 
-add_executable(CPU_Tracker main.c)
+# Add source files
+set(SOURCES
+    main.c
+    src/queue.c
+    src/handler.c
+    src/reader.c
+    src/analyzer.c
+    src/printer.c
+    src/watchdog.c
+    src/logger.c
+)
+
+add_executable(CPU_Tracker ${SOURCES})
 
 # Link pthread library
 find_package(Threads REQUIRED)

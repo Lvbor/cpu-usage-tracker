@@ -153,6 +153,174 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/main.c.s
 .PHONY : main.c.s
 
+src/analyzer.o: src/analyzer.c.o
+.PHONY : src/analyzer.o
+
+# target to build an object file
+src/analyzer.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/analyzer.c.o
+.PHONY : src/analyzer.c.o
+
+src/analyzer.i: src/analyzer.c.i
+.PHONY : src/analyzer.i
+
+# target to preprocess a source file
+src/analyzer.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/analyzer.c.i
+.PHONY : src/analyzer.c.i
+
+src/analyzer.s: src/analyzer.c.s
+.PHONY : src/analyzer.s
+
+# target to generate assembly for a file
+src/analyzer.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/analyzer.c.s
+.PHONY : src/analyzer.c.s
+
+src/handler.o: src/handler.c.o
+.PHONY : src/handler.o
+
+# target to build an object file
+src/handler.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/handler.c.o
+.PHONY : src/handler.c.o
+
+src/handler.i: src/handler.c.i
+.PHONY : src/handler.i
+
+# target to preprocess a source file
+src/handler.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/handler.c.i
+.PHONY : src/handler.c.i
+
+src/handler.s: src/handler.c.s
+.PHONY : src/handler.s
+
+# target to generate assembly for a file
+src/handler.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/handler.c.s
+.PHONY : src/handler.c.s
+
+src/logger.o: src/logger.c.o
+.PHONY : src/logger.o
+
+# target to build an object file
+src/logger.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/logger.c.o
+.PHONY : src/logger.c.o
+
+src/logger.i: src/logger.c.i
+.PHONY : src/logger.i
+
+# target to preprocess a source file
+src/logger.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/logger.c.i
+.PHONY : src/logger.c.i
+
+src/logger.s: src/logger.c.s
+.PHONY : src/logger.s
+
+# target to generate assembly for a file
+src/logger.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/logger.c.s
+.PHONY : src/logger.c.s
+
+src/printer.o: src/printer.c.o
+.PHONY : src/printer.o
+
+# target to build an object file
+src/printer.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/printer.c.o
+.PHONY : src/printer.c.o
+
+src/printer.i: src/printer.c.i
+.PHONY : src/printer.i
+
+# target to preprocess a source file
+src/printer.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/printer.c.i
+.PHONY : src/printer.c.i
+
+src/printer.s: src/printer.c.s
+.PHONY : src/printer.s
+
+# target to generate assembly for a file
+src/printer.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/printer.c.s
+.PHONY : src/printer.c.s
+
+src/queue.o: src/queue.c.o
+.PHONY : src/queue.o
+
+# target to build an object file
+src/queue.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/queue.c.o
+.PHONY : src/queue.c.o
+
+src/queue.i: src/queue.c.i
+.PHONY : src/queue.i
+
+# target to preprocess a source file
+src/queue.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/queue.c.i
+.PHONY : src/queue.c.i
+
+src/queue.s: src/queue.c.s
+.PHONY : src/queue.s
+
+# target to generate assembly for a file
+src/queue.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/queue.c.s
+.PHONY : src/queue.c.s
+
+src/reader.o: src/reader.c.o
+.PHONY : src/reader.o
+
+# target to build an object file
+src/reader.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/reader.c.o
+.PHONY : src/reader.c.o
+
+src/reader.i: src/reader.c.i
+.PHONY : src/reader.i
+
+# target to preprocess a source file
+src/reader.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/reader.c.i
+.PHONY : src/reader.c.i
+
+src/reader.s: src/reader.c.s
+.PHONY : src/reader.s
+
+# target to generate assembly for a file
+src/reader.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/reader.c.s
+.PHONY : src/reader.c.s
+
+src/watchdog.o: src/watchdog.c.o
+.PHONY : src/watchdog.o
+
+# target to build an object file
+src/watchdog.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/watchdog.c.o
+.PHONY : src/watchdog.c.o
+
+src/watchdog.i: src/watchdog.c.i
+.PHONY : src/watchdog.i
+
+# target to preprocess a source file
+src/watchdog.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/watchdog.c.i
+.PHONY : src/watchdog.c.i
+
+src/watchdog.s: src/watchdog.c.s
+.PHONY : src/watchdog.s
+
+# target to generate assembly for a file
+src/watchdog.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CPU_Tracker.dir/build.make CMakeFiles/CPU_Tracker.dir/src/watchdog.c.s
+.PHONY : src/watchdog.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -165,6 +333,27 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... src/analyzer.o"
+	@echo "... src/analyzer.i"
+	@echo "... src/analyzer.s"
+	@echo "... src/handler.o"
+	@echo "... src/handler.i"
+	@echo "... src/handler.s"
+	@echo "... src/logger.o"
+	@echo "... src/logger.i"
+	@echo "... src/logger.s"
+	@echo "... src/printer.o"
+	@echo "... src/printer.i"
+	@echo "... src/printer.s"
+	@echo "... src/queue.o"
+	@echo "... src/queue.i"
+	@echo "... src/queue.s"
+	@echo "... src/reader.o"
+	@echo "... src/reader.i"
+	@echo "... src/reader.s"
+	@echo "... src/watchdog.o"
+	@echo "... src/watchdog.i"
+	@echo "... src/watchdog.s"
 .PHONY : help
 
 

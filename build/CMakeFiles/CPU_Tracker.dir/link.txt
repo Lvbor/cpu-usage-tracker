@@ -1,1 +1,1 @@
-/usr/bin/cc -rdynamic CMakeFiles/CPU_Tracker.dir/main.c.o -o CPU_Tracker 
+/usr/bin/cc -rdynamic CMakeFiles/CPU_Tracker.dir/main.c.o CMakeFiles/CPU_Tracker.dir/src/queue.c.o CMakeFiles/CPU_Tracker.dir/src/handler.c.o CMakeFiles/CPU_Tracker.dir/src/reader.c.o CMakeFiles/CPU_Tracker.dir/src/analyzer.c.o CMakeFiles/CPU_Tracker.dir/src/printer.c.o CMakeFiles/CPU_Tracker.dir/src/watchdog.c.o CMakeFiles/CPU_Tracker.dir/src/logger.c.o -o CPU_Tracker 

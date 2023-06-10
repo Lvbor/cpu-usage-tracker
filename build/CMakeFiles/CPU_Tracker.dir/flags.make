@@ -4,7 +4,7 @@
 # compile C with /usr/bin/cc
 C_DEFINES = 
 
-C_INCLUDES = -I/home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker
+C_INCLUDES = -I/home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker -I/home/lubor/Pulpit/cpu-usage-tracker/cpu-usage-tracker/src
 
 C_FLAGS = -std=gnu99
 
