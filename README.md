@@ -1,7 +1,7 @@
 
 # CPU Usage Tracker
 
-The project provides a application that monitors the CPU usage of a system. It consists of multiple threads responsible for reading CPU data, analyzing the data, and logging the results. The application uses a queue to store CPU usage data and handles graceful termination through signal handlers.
+The project provides an application that monitors the CPU usage of a system. It consists of multiple threads responsible for reading CPU data, analyzing the data, and logging the results. The application uses a queue to store CPU usage data and handles graceful termination through signal handlers.
 
 ## Technologies Used
 
