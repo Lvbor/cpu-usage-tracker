@@ -84,14 +84,14 @@ The CPU Usage Tracker project has been checked for memory leaks to make sure you
 
 ## References and Resources
 
-[Proc documentation](https://www.kernel.org/doc/Documentation/filesystems/proc.txt)
+* [Proc documentation](https://www.kernel.org/doc/Documentation/filesystems/proc.txt)
 
-[Queue implementation](https://www.youtube.com/watch?v=FcIubL92gaI)
+* [Queue implementation](https://www.youtube.com/watch?v=FcIubL92gaI)
 
-[Catch SIGTERM, exit gracefully](https://airtower.wordpress.com/2010/06/16/catch-sigterm-exit-gracefully/)
+* [Catch SIGTERM, exit gracefully](https://airtower.wordpress.com/2010/06/16/catch-sigterm-exit-gracefully/)
 
-[Valgrind manual](https://valgrind.org/docs/manual/quick-start.html)
+* [Valgrind manual](https://valgrind.org/docs/manual/quick-start.html)
 
-[Unit testing with asserts](http://www.electronvector.com/blog/unit-testing-with-asserts)
+* [Unit testing with asserts](http://www.electronvector.com/blog/unit-testing-with-asserts)
 
-[CMake build system manual](https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html)
+* [CMake build system manual](https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html)
