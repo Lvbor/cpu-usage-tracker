@@ -3,6 +3,15 @@
 
 The project provides a application that monitors the CPU usage of a system. It consists of multiple threads responsible for reading CPU data, analyzing the data, and logging the results. The application uses a queue to store CPU usage data and handles graceful termination through signal handlers.
 
+## Technologies Used
+
+### Languages
+![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white)
+### Tools and others
+![CMake](https://img.shields.io/badge/CMake-%23008FBA.svg?style=for-the-badge&logo=cmake&logoColor=white) ![VSCode](https://img.shields.io/badge/VSCode-007ACC?style=for-the-badge)  ![Clang](https://img.shields.io/badge/clang-2B7489?style=for-the-badge) ![GCC](https://img.shields.io/badge/gcc-CD853F?style=for-the-badge) ![Git](https://img.shields.io/badge/Git-FF0000?style=for-the-badge) ![PThread](https://img.shields.io/badge/pthread-222222?style=for-the-badge) ![Valgrind](https://img.shields.io/badge/Valgrind-008000?style=for-the-badge) 
+### OS
+![LINUX](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black) 
+ 
 ## Features
 
 * Monitors and calculates CPU usage of the system.
